@@ -1,0 +1,4 @@
+berks/
+build/
+packages/
+src/cookbooks/resource_backup_storage/Gemfile.lock
