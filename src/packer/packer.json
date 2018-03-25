@@ -88,12 +88,12 @@
             "type": "shell"
         },
         {
-            "command": "New-VHD -Path '{{ user `dir_temp` }}/{{ build_name }}/Virtual Hard Disks/influxdb_data.vhdx' -SizeBytes 50GB -BlockSizeBytes 1MB",
+            "command": "New-VHD -Path '{{ user `dir_temp` }}/{{ build_name }}/Virtual Hard Disks/backup.vhdx' -SizeBytes 50GB -BlockSizeBytes 1MB",
             "execute_command": ["Powershell.exe", "-NonInteractive", "-NoLogo", "-NoProfile", "-Command", "{{.Command}}"],
             "type": "shell-local"
         },
         {
-            "command": "Add-VmHardDiskDrive -VMName {{ user `vm_name` }} -Path '{{ user `dir_temp` }}/{{build_name}}/Virtual Hard Disks/influxdb_data.vhdx'",
+            "command": "Add-VmHardDiskDrive -VMName {{ user `vm_name` }} -Path '{{ user `dir_temp` }}/{{build_name}}/Virtual Hard Disks/backup.vhdx'",
             "execute_command": ["Powershell.exe", "-NonInteractive", "-NoLogo", "-NoProfile", "-Command", "{{.Command}}"],
             "type": "shell-local"
         },
@@ -101,9 +101,9 @@
             "expect_disconnect": false,
             "inline": [
                 "sudo rescan-scsi-bus.sh --remove --issue-lip",
-                "sudo mkdir -p /srv/influxdb",
+                "sudo mkdir -p /srv/backup",
                 "sudo mkfs.ext4 /dev/sdb",
-                "echo \"UUID=$(sudo blkid -s UUID -o value /dev/sdb) /srv/influxdb ext4 defaults 0 0 \" | sudo tee -a /etc/fstab"
+                "echo \"UUID=$(sudo blkid -s UUID -o value /dev/sdb) /srv/backup ext4 defaults 0 0 \" | sudo tee -a /etc/fstab"
             ],
             "pause_before" : "15s",
             "type": "shell"
